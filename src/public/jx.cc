@@ -166,17 +166,27 @@ void JX_Initialize(const char *home_folder, JX_CALLBACK callback) {
 #endif
 }
 
+void JX_QInitialize(const char *home_folder) {
+  JX_CALLBACK cb;
+  JX_Initialize(home_folder, cb);
+}
+
 bool JX_Evaluate(const char *data, const char *script_name, JXValue *jxresult) {
   JXEngine *engine = JXEngine::ActiveInstance();
   if (engine == NULL) {
-    warn_console(
-        "(JX_Evaluate) Did you start the JXEngine instance for this thread?\n");
+    warn_console("(JX_Evaluate) Did you start the JXEngine instance for this thread?\n");
     return false;
   }
 
   const char *name = script_name == NULL ? "JX_Evaluate" : script_name;
-
   return engine->Evaluate(data, name, jxresult);
+}
+
+bool JX_QEvaluate(const char *data) {
+  JXValue jxresult;
+  bool result = JX_Evaluate(data, "quick", &jxresult);
+  JX_Free(&jxresult);
+  return result;
 }
 
 void JX_DefineMainFile(const char *data) {

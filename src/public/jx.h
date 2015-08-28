@@ -16,6 +16,10 @@ typedef void (*JX_CALLBACK)(JXValue *result, int argc);
 JXCORE_EXTERN(void)
 JX_Initialize(const char *home_folder, JX_CALLBACK callback);
 
+// initialize JXcore without callback
+JXCORE_EXTERN(void)
+JX_QInitialize(const char *home_folder);
+
 // Per each native thread, you should initialize a new JXcore engine
 JXCORE_EXTERN(void)
 JX_InitializeNewEngine();
@@ -28,6 +32,10 @@ JX_InitializeNewEngine();
 // 4 - script_code expects a JavaScript code with null ending
 JXCORE_EXTERN(bool)
 JX_Evaluate(const char *script_code, const char *script_name, JXValue *result);
+
+// Evaluates a JavaScript code on the fly without script_name & result.
+JXCORE_EXTERN(bool)
+JX_QEvaluate(const char *script_code);
 
 // Define the contents of main.js file (entry file for each JXcore engine)
 JXCORE_EXTERN(void)
